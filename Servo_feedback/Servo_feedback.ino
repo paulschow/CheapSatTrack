@@ -94,7 +94,7 @@ void loop()
         servo.attach(9);
         //servo.write(1);
         servo.writeMicroseconds(500);
-        delay(5000);  // wait 1 second for servo to reach the position                
+        delay(5000);  // wait 5 seconds for servo to reach the position                
         calVal[0] = analogRead(feedbackPin);  
         //servo.write(180);
         servo.writeMicroseconds(3000);
@@ -105,7 +105,16 @@ void loop()
         Serial.print(",");
         Serial.println(calVal[1]);
         v = 0 ;
-        break;      
+        break;
+
+      case 'e': // move to mid-point
+        Serial.println("Moving");
+        angle = map(90, calVal[0], calVal[1], 700, 2300);
+        Serial.println(angle);
+        servo.attach(9);  
+        servo.writeMicroseconds(angle);  
+        v = 0;
+        break;
     }
   }
 }

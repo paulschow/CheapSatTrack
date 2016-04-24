@@ -5,6 +5,7 @@ Servo roservo;
 
 String str;
 int x;
+int xmap;
 int inByte = 800;         // incoming serial byte
 
 
@@ -22,17 +23,23 @@ void setup()
 void loop() {
       if (Serial.available() > 0) {
         str = Serial.readStringUntil(';');
-        x = Serial.parseInt();
+        //x = Serial.parseInt();
         Serial.println(str);
-        Serial.println(x);
         if (str == "e"){
+          Serial.println(x);
+          x = Serial.parseInt();
           // elevation servo
-          elservo.writeMicroseconds(x);
+          // map the range of angles to the servo
+          xmap = map(x, 0, 180, 700, 2300);
+          elservo.writeMicroseconds(xmap);
           Serial.println("Adjusting Elevation");
         }
         else if (str == "r"){
+           Serial.println(x);
+           x = Serial.parseInt();
           // rotation servo
-          roservo.writeMicroseconds(x);
+          xmap = map(x, 0, 180, 700, 2300);
+          roservo.writeMicroseconds(xmap);
           Serial.println("Adjusting Rotation");
         }
     }
