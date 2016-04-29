@@ -58,7 +58,7 @@ void loop() {
            Serial.println(x);
            //x = Serial.parseInt();
           // rotation servo
-          xmap = map(x, 0, 180, 500, 2400);
+          xmap = map(x, 0, 90, 1400, 500);
           roservo.writeMicroseconds(xmap);
           Serial.println("Adjusting Rotation");
         }
