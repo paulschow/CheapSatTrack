@@ -316,20 +316,16 @@ void servo_move(int stepAz, int stepEl){
     
     //xmapr = map(stepAz, 0, 180, 500, 2400);
     // translate azimuth angles
-    // make 0 degrees pointing north
+    // make 0 degrees pointing WEST
     //Serial.println(stepAz);
-    if ((stepAz >= 270) && (stepAz <= 359)){
-        //Serial.println("quadrant 2");
-        //int xmapr;
-        //quadrant 2
-        xmapr = map(stepAz, 270, 359, 2300, 1400);
+    if ((stepAz >= 180) && (stepAz <= 270)){
+        //quadrant 3
+        xmapr = map(stepAz, 180, 270, 2300, 1400);
         roservo.writeMicroseconds(xmapr);
     }
-    else if((stepAz >= 0) && (stepAz <= 90)){
-        //int xmapr;
-        // quadrant 1
-        //Serial.println("quadrant 1");
-        xmapr = map(stepAz, 0, 90, 1400, 500);
+    else if((stepAz >= 271) && (stepAz <=91 360)){
+        // quadrant 2
+        xmapr = map(stepAz, 270, 360, 1400, 500);
         roservo.writeMicroseconds(xmapr);
     }
     
