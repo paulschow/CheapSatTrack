@@ -42,6 +42,10 @@
 Servo elservo;
 Servo roservo;
 
+// servo feedback pins
+int elfeedbackPin = 0;
+int rofeedbackPin = 5;
+
 /*Global Variables*/
 unsigned long t_DIS = 0; /*time to disable the Motors*/
 /*Define a stepper and the pins it will use*/
@@ -180,9 +184,11 @@ void cmd_proc(int &stepAz, int &stepEl)
       Serial.print(1);
       Serial.print(" ");
       Serial.print("AZ");
+      Serial.print(10*degro(),1);
       //Serial.print(10*step2deg(AZstepper.currentPosition()), 1);
       Serial.print(" ");
       Serial.print("EL");
+      Serial.print(10*degel(),1);
       //Serial.println(10*step2deg(ELstepper.currentPosition()), 1);
     }
     /*new data*/
@@ -195,9 +201,11 @@ void cmd_proc(int &stepAz, int &stepEl)
         {
           /*Get position*/
           Serial.print("AZ");
+          Serial.print(10*degro(),1);
           //Serial.print(step2deg(AZstepper.currentPosition()), 1);
           Serial.print(" ");
           Serial.print("EL");
+          Serial.print(10*degel(),1);
           //Serial.print(step2deg(ELstepper.currentPosition()), 1);
           Serial.println(" ");
         }
@@ -331,6 +339,29 @@ void servo_move(int stepAz, int stepEl){
     
 
     
+}
+
+// convert servo position to degree
+int degro(){
+    int position;
+    int degree;
+    // rotation feedback
+    position = analogRead(rofeedbackPin);
+    // my servos have analog positions between 80 and 445
+    // where 445 is 0 deg and 80 is 180 deg
+    degree = map(position, 445, 80, 0, 180);
+    return degree;
+}
+
+int degel(){
+    int position;
+    int degree;
+    // elevation feedback
+    position = analogRead(elfeedbackPin);
+    // my servo reads 285 at 90 degrees
+    // which is 0 degrees of elevation
+    degree = map(position, 285, 445, 0, 90);
+    return degree;
 }
 
 ///*Convert degrees to steps*/
