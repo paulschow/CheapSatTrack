@@ -49,9 +49,9 @@ void loop() {
           //x = Serial.parseInt();
           // elevation servo
           // map the range of angles to the servo
-          xmap = map(x, 0, 180, 700, 2300);
+          //xmap = map(x, 0, 180, 700, 2300);
           //Serial.println(xmap);
-          elservo.writeMicroseconds(xmap);
+          elservo.writeMicroseconds(x);
           Serial.println("Adjusting Elevation");
           delay(1000);
           Serial.print("Elevation adjusted to: ");
@@ -61,8 +61,8 @@ void loop() {
            Serial.println(x);
            //x = Serial.parseInt();
           // rotation servo
-          xmap = map(x, 0, 180, 500, 2400);
-          roservo.writeMicroseconds(xmap);
+          //xmap = map(x, 0, 180, 500, 2400);
+          roservo.writeMicroseconds(x);
           Serial.println("Adjusting Rotation");
           delay(1000);
           Serial.print("Rotation adjusted to: ");

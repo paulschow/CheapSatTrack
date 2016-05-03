@@ -319,7 +319,7 @@ void servo_move(int stepAz, int stepEl){
     
     // map the range of angles to the servo
     //xmape = map(stepEl, 0, 180, 500, 2400);
-    xmape = map(stepEl, 0, 90, 1425, 2400);
+    xmape = map(stepEl, 0, 90, 2300, 1425);
     elservo.writeMicroseconds(xmape);
     
     //xmapr = map(stepAz, 0, 180, 500, 2400);
@@ -328,12 +328,12 @@ void servo_move(int stepAz, int stepEl){
     //Serial.println(stepAz);
     if ((stepAz >= 0) && (stepAz <= 90)){
         //quadrant 1
-        xmapr = map(stepAz, 0, 90, 2300, 1400);
+        xmapr = map(stepAz, 0, 90, 2300, 1500);
         roservo.writeMicroseconds(xmapr);
     }
     else if((stepAz >= 91) && (stepAz <= 180)){
         // quadrant 4
-        xmapr = map(stepAz, 90, 180, 1400, 500);
+        xmapr = map(stepAz, 90, 180, 1500, 500);
         roservo.writeMicroseconds(xmapr);
     }
     
