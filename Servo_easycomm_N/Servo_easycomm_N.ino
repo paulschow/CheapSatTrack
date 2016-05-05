@@ -42,6 +42,9 @@
 Servo elservo;
 Servo roservo;
 
+// servo feedback pins
+int elfeedbackPin = 1;
+int rofeedbackPin = 0;
 /*Global Variables*/
 unsigned long t_DIS = 0; /*time to disable the Motors*/
 /*Define a stepper and the pins it will use*/
@@ -180,9 +183,11 @@ void cmd_proc(int &stepAz, int &stepEl)
       Serial.print(1);
       Serial.print(" ");
       Serial.print("AZ");
+      Serial.print(10*degro(),1);
       //Serial.print(10*step2deg(AZstepper.currentPosition()), 1);
       Serial.print(" ");
       Serial.print("EL");
+      Serial.print(10*degel(),1);
       //Serial.println(10*step2deg(ELstepper.currentPosition()), 1);
     }
     /*new data*/
@@ -195,9 +200,11 @@ void cmd_proc(int &stepAz, int &stepEl)
         {
           /*Get position*/
           Serial.print("AZ");
+          Serial.print(10*degro(),1);
           //Serial.print(step2deg(AZstepper.currentPosition()), 1);
           Serial.print(" ");
           Serial.print("EL");
+          Serial.print(10*degel(),1);
           //Serial.print(step2deg(ELstepper.currentPosition()), 1);
           Serial.println(" ");
         }
@@ -311,7 +318,7 @@ void servo_move(int stepAz, int stepEl){
     
     // map the range of angles to the servo
     //xmape = map(stepEl, 0, 180, 500, 2400);
-    xmape = map(stepEl, 0, 90, 1425, 2400);
+    xmape = map(stepEl, 0, 90, 2300, 1425);
     elservo.writeMicroseconds(xmape);
     
     //xmapr = map(stepAz, 0, 180, 500, 2400);
@@ -319,17 +326,13 @@ void servo_move(int stepAz, int stepEl){
     // make 0 degrees pointing north
     //Serial.println(stepAz);
     if ((stepAz >= 270) && (stepAz <= 359)){
-        //Serial.println("quadrant 2");
-        //int xmapr;
         //quadrant 2
-        xmapr = map(stepAz, 270, 359, 2300, 1400);
+        xmapr = map(stepAz, 270, 359, 2300, 1500);
         roservo.writeMicroseconds(xmapr);
     }
     else if((stepAz >= 0) && (stepAz <= 90)){
-        //int xmapr;
         // quadrant 1
-        //Serial.println("quadrant 1");
-        xmapr = map(stepAz, 0, 90, 1400, 500);
+        xmapr = map(stepAz, 0, 90, 1500, 700);
         roservo.writeMicroseconds(xmapr);
     }
     
@@ -337,6 +340,37 @@ void servo_move(int stepAz, int stepEl){
     
 }
 
+// convert servo position to degree
+// analog position for rotation is between 445 and 125
+int degro(){
+    int position;
+    int degree;
+    // rotation feedback
+    position = analogRead(rofeedbackPin);
+    
+    if ((position >= 445) && (position <= 265)){
+        // quadrant 2
+        degree = map(position, 445, 265, 270, 0);
+    }
+    else if ((position >= 266) && (position <= 125)){
+        // quadrant 1
+        degree = map(position, 266, 125, 0, 180);
+    }
+    
+    return degree;
+}
+
+// analog position for elevation is between 264 and 423
+int degel(){
+    int position;
+    int degree;
+    // elevation feedback
+    position = analogRead(elfeedbackPin);
+    // my servo reads 285 at 90 degrees
+    // which is 0 degrees of elevation
+    degree = map(position, 264, 425, 90, 0);
+    return degree;
+}
 ///*Convert degrees to steps*/
 //int deg2step(double deg)
 //{

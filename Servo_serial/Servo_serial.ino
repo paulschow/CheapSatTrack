@@ -10,8 +10,8 @@ int xmap2;
 int inByte = 800;         // incoming serial byte
 int angle = 90;
 int position = 90;
-int elfeedbackPin = 0;
-int rofeedbackPin = 5;
+int elfeedbackPin = 1;
+int rofeedbackPin = 0;
 int val = 0;
 int rocalVal[] = {80, 445};  // initial cal values
 int elcalVal[] = {80, 445};  // initial cal values

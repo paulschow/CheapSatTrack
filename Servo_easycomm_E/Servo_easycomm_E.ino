@@ -43,8 +43,8 @@ Servo elservo;
 Servo roservo;
 
 // servo feedback pins
-int elfeedbackPin = 0;
-int rofeedbackPin = 5;
+int elfeedbackPin = 1;
+int rofeedbackPin = 0;
 
 /*Global Variables*/
 unsigned long t_DIS = 0; /*time to disable the Motors*/
@@ -333,7 +333,7 @@ void servo_move(int stepAz, int stepEl){
     }
     else if((stepAz >= 91) && (stepAz <= 180)){
         // quadrant 4
-        xmapr = map(stepAz, 90, 180, 1500, 500);
+        xmapr = map(stepAz, 90, 180, 1500, 700);
         roservo.writeMicroseconds(xmapr);
     }
     
@@ -349,7 +349,7 @@ int degro(){
     position = analogRead(rofeedbackPin);
     // my servos have analog positions between 80 and 445
     // where 445 is 0 deg and 80 is 180 deg
-    degree = map(position, 445, 80, 0, 180);
+    degree = map(position, 445, 125, 0, 180);
     return degree;
 }
 
@@ -360,7 +360,7 @@ int degel(){
     position = analogRead(elfeedbackPin);
     // my servo reads 285 at 90 degrees
     // which is 0 degrees of elevation
-    degree = map(position, 285, 445, 0, 90);
+    degree = map(position, 264, 425, 90, 0);
     return degree;
 }
 
