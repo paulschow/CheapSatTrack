@@ -45,6 +45,7 @@ Servo roservo;
 // servo feedback pins
 int elfeedbackPin = 1;
 int rofeedbackPin = 0;
+
 /*Global Variables*/
 unsigned long t_DIS = 0; /*time to disable the Motors*/
 /*Define a stepper and the pins it will use*/
